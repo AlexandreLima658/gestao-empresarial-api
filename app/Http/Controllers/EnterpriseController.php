@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application\UseCases\Enterprise\create\CreateEnterprise;
+use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller
@@ -25,4 +26,21 @@ class EnterpriseController extends Controller
             'name' => $enterprise->getName()
         ], 201);
     }
+
+    public function index(RetrieveEnterprise $retrieveEnterprise)
+    {
+        $enterprises = $retrieveEnterprise->execute();
+
+        return response()->json(
+            array_map(function($enterprise){
+                return [
+                    'id' => $enterprise->getId(),
+                    'name' => $enterprise->getName(),
+                ];
+            }, $enterprises)
+        );
+    }
+
+
+
 }

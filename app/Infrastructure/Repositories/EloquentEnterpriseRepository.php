@@ -21,4 +21,15 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
 
     }
 
+    public function list(): array
+    {
+        return EnterpriseModel::all()
+            ->map(function ($model) {
+               return new Enterprise(
+                    $model->id,
+                    $model->name
+               );
+            })->toArray();
+    }
+
 }
