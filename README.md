@@ -7,52 +7,218 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# 📊 API de Gestão Financeira Empresarial
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Visão Geral
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Esta API foi desenvolvida com foco em **controladoria e gestão financeira empresarial**, permitindo o gerenciamento de entidades fundamentais como empresas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O projeto foi estruturado utilizando:
 
-## Learning Laravel
+* **PHP + Laravel**
+* **DDD (Domain-Driven Design)**
+* **Clean Architecture**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+O objetivo é garantir:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Separação clara de responsabilidades
+* Domínio rico com regras de negócio
+* Baixo acoplamento com o framework
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🧠 Arquitetura
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+O projeto segue os princípios de **Clean Architecture**, dividido em camadas:
 
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+app/
+ ├── Domain/           # Regras de negócio
+ ├── Application/      # Casos de uso
+ ├── Infrastructure/   # Persistência (Eloquent)
+ ├── Interfaces/       # Controllers / HTTP
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 🔹 Domain
 
-## Contributing
+Contém as entidades e regras de negócio.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Exemplo:
 
-## Code of Conduct
+* `Enterprise`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 🔹 Application
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Responsável por orquestrar as regras através de casos de uso.
 
-## License
+Exemplos:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* `CreateEnterprise`
+* `RetrieveEnterpriseById`
+* `RetrieveEnterprises`
+* `UpdateEnterprise`
+* `DeleteEnterprise`
+
+---
+
+### 🔹 Infrastructure
+
+Camada responsável pela comunicação com o banco de dados.
+
+Exemplo:
+
+* `EloquentEnterpriseRepository`
+
+---
+
+### 🔹 Interfaces
+
+Camada de entrada da aplicação (HTTP).
+
+Exemplo:
+
+* `EnterpriseController`
+
+---
+
+## 🚀 Como rodar o projeto
+
+### 📦 Instalação
+
+```bash
+git clone <repo-url>
+cd gestao-financeira-api
+
+composer install
+```
+
+---
+
+### ⚙️ Configuração
+
+Configure o arquivo `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gestao_empresarial
+DB_USERNAME=laravel
+DB_PASSWORD=123456
+```
+
+---
+
+### 🧱 Rodar migrations
+
+```bash
+php artisan migrate
+```
+
+---
+
+### ▶️ Subir servidor
+
+```bash
+php artisan serve
+```
+
+A API estará disponível em:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 📡 Endpoints disponíveis
+
+### ➕ Criar empresa
+
+```http
+POST /api/enterprise
+```
+
+**Body:**
+
+```json
+{
+  "name": "Empresa X"
+}
+```
+
+---
+
+### 📄 Listar empresas
+
+```http
+GET /api/enterprise
+```
+
+---
+
+### 🔍 Buscar empresa por ID
+
+```http
+GET /api/enterprise/{id}
+```
+
+---
+
+### ✏️ Atualizar empresa
+
+```http
+PUT /api/enterprise/{id}
+```
+
+**Body:**
+
+```json
+{
+  "name": "Empresa Atualizada"
+}
+```
+
+---
+
+### ❌ Remover empresa
+
+```http
+DELETE /api/enterprise/{id}
+```
+
+---
+
+## 🧪 Ferramentas de teste
+
+A API pode ser testada utilizando:
+
+* Bruno
+* Postman
+* cURL
+
+---
+
+## 🧠 Decisões Técnicas
+
+* Separação entre **domínio e infraestrutura**
+* Uso de **Repository Pattern**
+* Entidades independentes do framework
+* Uso de **Use Cases** para orquestração de regras
+
+---
+
+## 🚧 Próximos passos
+
+* Implementação de **Centro de Custo**
+* Lançamentos financeiros
+* Fluxo de caixa
+* Regras de fechamento mensal
+
+---
+
+## 👨‍💻 Autor
+
+Projeto desenvolvido como estudo e demonstração de boas práticas de arquitetura backend.
