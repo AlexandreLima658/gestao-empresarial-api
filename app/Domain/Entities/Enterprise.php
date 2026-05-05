@@ -17,8 +17,17 @@ class Enterprise
     private function valid(string $name): void
     {
         if(empty(trim($name))) {
-            throw new \ErrorException("Name is required");
+            throw new \Exception("Name enterprise is required");
         }
+    }
+
+    public function updateEnterprise(string $name): void
+    {
+        if(empty(trim($name))) {
+          throw new \Exception("Name enterprise is required!");
+        }
+
+        $this->name = $name;
     }
 
     public function getId(): ?int

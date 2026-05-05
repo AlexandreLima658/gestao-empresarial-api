@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Entities\Enterprise;
 use App\Domain\Repositories\EnterpriseRepository;
 use App\Models\EnterpriseModel;
+use Override;
 
 class EloquentEnterpriseRepository implements EnterpriseRepository
 {
@@ -33,6 +34,23 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
         return $model ? $this->mapper($model) : null;
 
     }
+
+
+    public function update(Enterprise $enterprise): Enterprise
+    {
+        $model = EnterpriseModel::findOrFail($enterprise->getId());
+
+        if(!$model) {
+            throw new \Exception('Enterprise not found');
+        }
+
+        $model->update([
+            'name' => $enterprise->getName()
+        ]);
+
+        return $this->mapper($model);
+    }
+
 
     private function mapper(EnterpriseModel $model): Enterprise
     {

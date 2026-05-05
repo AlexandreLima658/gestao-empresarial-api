@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/enterprise', [EnterpriseController::class, 'store']);
 Route::get('/enterprise', [EnterpriseController::class, 'index']);
 Route::get('/enterprise/{id}', [EnterpriseController::class, 'show']);
+Route::put('/enterprise/{id}', [EnterpriseController::class, 'update']);

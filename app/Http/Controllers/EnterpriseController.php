@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application\UseCases\Enterprise\create\CreateEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
+use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller
@@ -52,6 +53,25 @@ class EnterpriseController extends Controller
                 'name' => $enterprise->getName()
             ]);
 
+        } catch(\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+    public function update(int $id, Request $request, UpdateEnterprise $updateEnterprise)
+    {
+        try {
+            $enterprise = $updateEnterprise->execute(
+                $id,
+                $request->input('name')
+            );
+
+            return response()->json([
+                'id' => $enterprise->getId(),
+                'name' => $enterprise->getName()
+            ]);
         } catch(\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
