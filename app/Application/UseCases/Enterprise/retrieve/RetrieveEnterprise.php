@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases\Enterprise\retrieve;
 
-use App\Domain\Repositories\EnterpriseRepository;
+use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 
 class RetrieveEnterprise
 {

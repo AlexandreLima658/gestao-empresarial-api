@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Repositories;
 
-use App\Domain\Entities\Enterprise;
-use App\Domain\Repositories\EnterpriseRepository;
+use App\Domain\Entities\Enterprise\Enterprise;
+use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 use App\Models\EnterpriseModel;
 
 class EloquentEnterpriseRepository implements EnterpriseRepository

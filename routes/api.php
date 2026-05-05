@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\EnterpriseController;
+use App\Http\Controllers\CostCenter\CostCenterController;
+use App\Http\Controllers\Enterprise\EnterpriseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,3 +14,5 @@ Route::get('/enterprise', [EnterpriseController::class, 'index']);
 Route::get('/enterprise/{id}', [EnterpriseController::class, 'show']);
 Route::put('/enterprise/{id}', [EnterpriseController::class, 'update']);
 Route::delete('/enterprise/{id}', [EnterpriseController::class, 'destroy']);
+
+Route::post('/cost-centers', [CostCenterController::class, 'store']);

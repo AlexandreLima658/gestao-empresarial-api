@@ -2,7 +2,7 @@
 
 namespace App\Application\UseCases\Enterprise\Delete;
 
-use App\Domain\Repositories\EnterpriseRepository;
+use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 
 class DeleteEnterprise
 {

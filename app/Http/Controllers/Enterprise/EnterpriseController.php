@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Enterprise;
 
 use App\Application\UseCases\Enterprise\create\CreateEnterprise;
 use App\Application\UseCases\Enterprise\Delete\DeleteEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
 use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller
