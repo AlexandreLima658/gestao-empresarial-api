@@ -7,7 +7,6 @@ use App\Domain\Repositories\EnterpriseRepository;
 
 class CreateEnterprise
 {
-
     private EnterpriseRepository $repository;
 
     public function __construct(EnterpriseRepository $repository)
@@ -18,7 +17,6 @@ class CreateEnterprise
     public function execute(string $name): Enterprise
     {
         $enterprise = new Enterprise(null, $name);
-
         return $this->repository->save($enterprise);
     }
 }

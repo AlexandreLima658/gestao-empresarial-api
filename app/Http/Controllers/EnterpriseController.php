@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application\UseCases\Enterprise\create\CreateEnterprise;
+use App\Application\UseCases\Enterprise\Delete\DeleteEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
 use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
@@ -76,6 +77,20 @@ class EnterpriseController extends Controller
             return response()->json([
                 'message' => $e->getMessage()
             ], 404);
+        }
+    }
+
+    public function destroy(int $id, DeleteEnterprise $deleteEnterprise)
+    {
+        try {
+            $deleteEnterprise->execute($id);
+            return response()->json([
+                'message' => 'Enterprise delete successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ],404);
         }
     }
 

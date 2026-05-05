@@ -10,5 +10,6 @@ interface EnterpriseRepository
    public function findAll(): array;
    public function findById(int $id): ?Enterprise;
    public function update(Enterprise $enterprise): Enterprise;
+   public function delete(int $id): void;
 
 }

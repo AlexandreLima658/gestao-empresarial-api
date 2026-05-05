@@ -5,17 +5,17 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Entities\Enterprise;
 use App\Domain\Repositories\EnterpriseRepository;
 use App\Models\EnterpriseModel;
-use Override;
 
 class EloquentEnterpriseRepository implements EnterpriseRepository
 {
     public function save(Enterprise $enterprise): Enterprise
     {
+
         $model = EnterpriseModel::create([
             'name' => $enterprise->getName()
         ]);
 
-         return $this->mapper($model);
+        return $this->mapper($model);
 
     }
 
@@ -26,10 +26,9 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
             ->toArray();
     }
 
-
     public function findById(int $id): ?Enterprise
     {
-        $model = EnterpriseModel::findOrFail($id);
+        $model = EnterpriseModel::find($id);
 
         return $model ? $this->mapper($model) : null;
 
@@ -38,7 +37,7 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
 
     public function update(Enterprise $enterprise): Enterprise
     {
-        $model = EnterpriseModel::findOrFail($enterprise->getId());
+        $model = EnterpriseModel::find($enterprise->getId());
 
         if(!$model) {
             throw new \Exception('Enterprise not found');
@@ -51,6 +50,17 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
         return $this->mapper($model);
     }
 
+
+    public function delete(int $id): void
+    {
+       $model = EnterpriseModel::find($id);
+
+       if(!$model) {
+           throw new \Exception('Enterprise not found');
+       }
+
+       $model->delete();
+    }
 
     private function mapper(EnterpriseModel $model): Enterprise
     {
