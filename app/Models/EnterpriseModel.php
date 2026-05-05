@@ -8,4 +8,5 @@ class EnterpriseModel extends Model
 {
    protected $table = 'enterprises';
    protected $fillable = ['name'];
+
 }
