@@ -2,9 +2,10 @@
 
 namespace App\Application\UseCases\Enterprise\retrieve;
 
+use App\Domain\Entities\Enterprise;
 use App\Domain\Repositories\EnterpriseRepository;
 
-class RetrieveEnterprise
+class RetrieveEnterpriseById
 {
     private EnterpriseRepository $repository;
 
@@ -13,8 +14,14 @@ class RetrieveEnterprise
         $this->repository = $repository;
     }
 
-    public function execute(): array
+    public function execute(int $id): Enterprise
     {
-        return $this->repository->findAll();
+        $enterprise = $this->repository->findById($id);
+
+        if(!$enterprise) {
+            throw new \Exception("Enterprise not found");
+        }
+
+        return $enterprise;
     }
 }

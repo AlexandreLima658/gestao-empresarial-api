@@ -19,6 +19,6 @@ class CreateEnterprise
     {
         $enterprise = new Enterprise(null, $name);
 
-        return $this->repository->salve($enterprise);
+        return $this->repository->save($enterprise);
     }
 }

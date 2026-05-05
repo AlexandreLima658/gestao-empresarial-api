@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application\UseCases\Enterprise\create\CreateEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
+use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller
@@ -41,6 +42,21 @@ class EnterpriseController extends Controller
         );
     }
 
+    public function show(int $id, RetrieveEnterpriseById $retrieveEnterpriseById)
+    {
+        try {
+            $enterprise = $retrieveEnterpriseById->execute($id);
 
+            return response()->json([
+                'id' => $enterprise->getId(),
+                'name' => $enterprise->getName()
+            ]);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 404);
+        }
+    }
 
 }
