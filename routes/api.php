@@ -16,3 +16,6 @@ Route::put('/enterprise/{id}', [EnterpriseController::class, 'update']);
 Route::delete('/enterprise/{id}', [EnterpriseController::class, 'destroy']);
 
 Route::post('/cost-centers', [CostCenterController::class, 'store']);
+Route::get('/enterprise/{enterpriseId}/cost-centers',
+    [CostCenterController::class, 'indexByEnterprise']
+);

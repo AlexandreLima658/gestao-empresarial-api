@@ -17,4 +17,5 @@ class CostCenterFactory
     {
         return new CostCenter(null, $enterpriseId, $name);
     }
+
 }

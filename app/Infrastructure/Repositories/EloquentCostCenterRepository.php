@@ -6,6 +6,7 @@ use App\Domain\Entities\CostCenter\CostCenter;
 use App\Domain\Entities\CostCenter\CostCenterFactory;
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 use App\Models\CostCenterModel;
+use Illuminate\Support\Collection;
 
 class EloquentCostCenterRepository implements CostCenterRepository
 {
@@ -20,6 +21,14 @@ class EloquentCostCenterRepository implements CostCenterRepository
        return $this->mapper($model);
     }
 
+    public function findEnterpriseById(int $enterpriseId): Collection
+    {
+        return CostCenterModel::query()
+            ->where('enterprise_id', $enterpriseId)
+            ->get()
+            ->map(fn($model) => $this->mapper($model));
+    }
+
     public function mapper(CostCenterModel $model): CostCenter
     {
         return CostCenterFactory::create(
@@ -28,6 +37,4 @@ class EloquentCostCenterRepository implements CostCenterRepository
             $model->name
         );
     }
-
-
 }
