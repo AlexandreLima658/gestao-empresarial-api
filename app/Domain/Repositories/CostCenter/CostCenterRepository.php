@@ -12,6 +12,9 @@ interface CostCenterRepository
     public function save(CostCenter $costCenter): CostCenter;
     public function findEnterpriseById(int $enterpriseId): Collection;
     public function existsByNameAndEnterpriseId(string $name, int $enterpriseId): bool;
+    public function findById(int $id): ?CostCenter;
+    public function update(CostCenter $costCenter): CostCenter;
+
 }
 
 

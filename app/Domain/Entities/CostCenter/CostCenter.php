@@ -26,6 +26,12 @@ class CostCenter
         }
     }
 
+    public function updateName(string $name): void
+    {
+        $this->valid($name);
+        $this->name = $name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -6,6 +6,7 @@ use App\Domain\Entities\CostCenter\CostCenter;
 use App\Domain\Entities\CostCenter\CostCenterFactory;
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 use App\Models\CostCenterModel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class EloquentCostCenterRepository implements CostCenterRepository
@@ -35,6 +36,26 @@ class EloquentCostCenterRepository implements CostCenterRepository
             ->where('enterprise_id', $enterpriseId)
             ->where('name', $name)
             ->exists();
+    }
+    public function findById(int $id): ?CostCenter
+    {
+        $model = CostCenterModel::query()->find($id);
+        return $model ? $this->mapper($model) : null;
+    }
+
+    public function update(CostCenter $costCenter): CostCenter
+    {
+        $model = CostCenterModel::query()->find($costCenter->getId());
+
+        if(!$model) {
+            throw new \Exception("Cost center not found");
+        }
+
+        $model->update([
+            'name' => $costCenter->getName(),
+        ]);
+
+        return $this->mapper($model);
     }
 
     public function mapper(CostCenterModel $model): CostCenter
