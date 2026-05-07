@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Repositories;
+namespace App\Domain\Repositories\Enterprise;
 
-use App\Domain\Entities\Enterprise;
+use App\Domain\Entities\Enterprise\Enterprise;
 
 interface EnterpriseRepository
 {
