@@ -29,6 +29,14 @@ class EloquentCostCenterRepository implements CostCenterRepository
             ->map(fn($model) => $this->mapper($model));
     }
 
+    public function existsByNameAndEnterpriseId(string $name, int $enterpriseId): bool
+    {
+        return CostCenterModel::query()
+            ->where('enterprise_id', $enterpriseId)
+            ->where('name', $name)
+            ->exists();
+    }
+
     public function mapper(CostCenterModel $model): CostCenter
     {
         return CostCenterFactory::create(
@@ -37,4 +45,6 @@ class EloquentCostCenterRepository implements CostCenterRepository
             $model->name
         );
     }
+
+
 }

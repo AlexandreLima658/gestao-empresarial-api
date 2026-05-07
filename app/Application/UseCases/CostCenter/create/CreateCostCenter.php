@@ -34,6 +34,13 @@ class CreateCostCenter
             throw new \Exception("Enterprise not found");
         }
 
+        $alreadyExists = $this->costCenterRepository
+            ->existsByNameAndEnterpriseId($name,$enterpriseId);
+
+        if ($alreadyExists) {
+            throw new \Exception("Cost Center already exists for enterprise");
+        }
+
         $costCenter = CostCenterFactory::createWithIdNull($enterpriseId, $name);
 
         return $this->costCenterRepository->save($costCenter);
