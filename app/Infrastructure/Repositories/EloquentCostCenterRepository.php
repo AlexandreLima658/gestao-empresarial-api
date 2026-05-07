@@ -6,7 +6,6 @@ use App\Domain\Entities\CostCenter\CostCenter;
 use App\Domain\Entities\CostCenter\CostCenterFactory;
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 use App\Models\CostCenterModel;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class EloquentCostCenterRepository implements CostCenterRepository

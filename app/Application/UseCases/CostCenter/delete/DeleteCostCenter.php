@@ -2,7 +2,6 @@
 
 namespace App\Application\UseCases\CostCenter\delete;
 
-use App\Domain\Entities\CostCenter\CostCenter;
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 
 class DeleteCostCenter
