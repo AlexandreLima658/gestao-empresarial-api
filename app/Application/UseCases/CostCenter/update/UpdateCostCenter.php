@@ -8,10 +8,12 @@ use App\Domain\Repositories\CostCenter\CostCenterRepository;
 
 class UpdateCostCenter
 {
-
+    private CostCenterRepository $costCenterRepository;
     public function __construct(
-        private CostCenterRepository $costCenterRepository
-    ) {}
+        CostCenterRepository $costCenterRepository
+    ) {
+        $this->costCenterRepository = $costCenterRepository;
+    }
     public function execute(int $id, string $name): CostCenter {
         $costCenter = $this->costCenterRepository->findById($id);
 

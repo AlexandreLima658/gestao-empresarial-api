@@ -20,3 +20,4 @@ Route::get('/enterprise/{enterpriseId}/cost-centers',
     [CostCenterController::class, 'indexByEnterprise']
 );
 Route::put('/cost-centers/{id}', [CostCenterController::class, 'update']);
+Route::delete('/cost-centers/{id}', [CostCenterController::class, 'destroy']);

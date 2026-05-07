@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CostCenter;
 
 use App\Application\UseCases\CostCenter\create\CreateCostCenter;
+use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
 use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
 use App\Http\Controllers\Controller;
@@ -68,6 +69,20 @@ class CostCenterController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
             ], 400);
+        }
+    }
+
+    public function destroy(int $id, DeleteCostCenter $delete)
+    {
+        try {
+            $delete->execute($id);
+            return response()->json([
+                'message' => 'Cost center delete successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ],404);
         }
     }
 }

@@ -14,6 +14,7 @@ interface CostCenterRepository
     public function existsByNameAndEnterpriseId(string $name, int $enterpriseId): bool;
     public function findById(int $id): ?CostCenter;
     public function update(CostCenter $costCenter): CostCenter;
+    public function delete(int $id): void;
 
 }
 

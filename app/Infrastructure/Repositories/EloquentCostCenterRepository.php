@@ -58,6 +58,17 @@ class EloquentCostCenterRepository implements CostCenterRepository
         return $this->mapper($model);
     }
 
+    public function delete(int $id): void
+    {
+        $model = CostCenterModel::query()->find($id);
+
+        if (!$model) {
+            throw new \Exception("Cost center not found");
+        }
+
+        $model->delete();
+    }
+
     public function mapper(CostCenterModel $model): CostCenter
     {
         return CostCenterFactory::create(
@@ -66,6 +77,5 @@ class EloquentCostCenterRepository implements CostCenterRepository
             $model->name
         );
     }
-
 
 }
