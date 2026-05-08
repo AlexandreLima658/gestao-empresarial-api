@@ -6,6 +6,7 @@ use App\Domain\Entities\Financial\FinancialEntry;
 use App\Domain\Enums\FinancialEntryType;
 use App\Domain\Repositories\Financial\FinancialEntryRepository;
 use App\Models\FinancialEntryModel;
+use Illuminate\Support\Collection;
 
 class EloquentFinancialEntryRepository implements FinancialEntryRepository
 {
@@ -24,6 +25,16 @@ class EloquentFinancialEntryRepository implements FinancialEntryRepository
         return $this->mapper($model);
     }
 
+    public function findByPeriod(int $enterpriseId, string $startDate, string $endDate): Collection
+    {
+        return FinancialEntryModel::query()
+            ->where('enterprise_id', $enterpriseId)
+            ->whereBetween('entry_date', [$startDate, $endDate])
+            ->get()
+            ->map(fn($model) => $this->mapper($model));
+
+    }
+
     public function mapper(FinancialEntryModel $model): FinancialEntry
     {
         return new FinancialEntry(
@@ -36,4 +47,6 @@ class EloquentFinancialEntryRepository implements FinancialEntryRepository
             $model->entry_date
         );
     }
+
+
 }

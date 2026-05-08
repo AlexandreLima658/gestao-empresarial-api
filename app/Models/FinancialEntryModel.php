@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\Enums\FinancialEntryType;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -26,4 +27,9 @@ class FinancialEntryModel extends Model
         'entry_date',
     ];
 
+    protected $casts = [
+        'type' => FinancialEntryType::class,
+        'amount' => 'decimal:2',
+        'entry_date' => 'date',
+    ];
 }
