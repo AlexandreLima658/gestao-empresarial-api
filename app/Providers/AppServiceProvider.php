@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 use App\Domain\Repositories\Enterprise\EnterpriseRepository;
+use App\Domain\Repositories\Financial\FinancialEntryRepository;
 use App\Infrastructure\Repositories\EloquentCostCenterRepository;
 use App\Infrastructure\Repositories\EloquentEnterpriseRepository;
+use App\Infrastructure\Repositories\EloquentFinancialEntryRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(EnterpriseRepository::class, EloquentEnterpriseRepository::class);
         $this->app->bind(CostCenterRepository::class, EloquentCostCenterRepository::class);
+        $this->app->bind(FinancialEntryRepository::class, EloquentFinancialEntryRepository::class
+        );
 
     }
 
