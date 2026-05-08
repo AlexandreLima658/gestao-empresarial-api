@@ -38,7 +38,7 @@ class CreateFinancialEntry extends UseCase
      */
     public function execute($input): CreateFinancialOutput
     {
-        $model = FinancialEntryFactory::createWithIdNull(
+        $entry = FinancialEntryFactory::createWithIdNull(
             $input->enterprise_id,
             $input->cost_center_id,
             $input->description,
@@ -47,7 +47,13 @@ class CreateFinancialEntry extends UseCase
             $input->entryDate
         );
 
-        $modelId = $this->repository->save($model);
-        return new CreateFinancialOutput($modelId->getId());
+        $model = $this->repository->save($entry);
+
+        return new CreateFinancialOutput(
+            $model->getId(),
+            $model->getDescription(),
+            $model->getAmount(),
+            $model->getType(),
+        );
     }
 }

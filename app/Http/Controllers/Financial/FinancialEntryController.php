@@ -17,7 +17,10 @@ class FinancialEntryController extends Controller
             $entry = $useCase->execute(CreateFinancialInput::from($request));
 
             return response()->json([
-                'id' => $entry->id
+                'id' => $entry->id,
+                'description' => $entry->description,
+                'amount' => $entry->amount,
+                'type' => $entry->type,
             ],201);
         } catch (\Exception $e) {
             return response()->json([
