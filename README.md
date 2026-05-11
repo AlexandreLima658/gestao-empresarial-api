@@ -201,6 +201,19 @@ A API pode ser testada utilizando:
 
 ---
 
+## 📚 Documentação da API (Swagger)
+
+A documentação da API foi integrada utilizando o Swagger/OpenAPI através do pacote L5-Swagger.
+
+### 🚀 Gerar documentação
+
+Execute o comando:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+---
 ## 🧠 Decisões Técnicas
 
 * Separação entre **domínio e infraestrutura**
