@@ -213,6 +213,25 @@ Execute o comando:
 php artisan l5-swagger:generate
 ```
 
+### ▶️ Executar aplicação
+```bash
+php artisan serve
+```
+
+### 🌐 Acessar Swagger UI
+
+Com a aplicação em execução, acesse:
+http://127.0.0.1:8000/api/documentation
+
+### 📌 Endpoints documentados
+
+Atualmente a API possui documentação para os seguintes módulos:
+
+  - Empresas (Enterprise)
+  - Centros de custo (Cost Center)
+  - Lançamentos financeiros (Financial Entry)
+  - Fluxo de caixa (Cash Flow)
+  - Fechamento mensal (Monthly Closing)
 ---
 ## 🧠 Decisões Técnicas
 
