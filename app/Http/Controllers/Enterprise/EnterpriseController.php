@@ -10,7 +10,7 @@ use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class EnterpriseController extends Controller
+class EnterpriseController extends Controller implements EnterpriseAPI
 {
     private CreateEnterprise $createEnterprise;
 
@@ -43,25 +43,8 @@ class EnterpriseController extends Controller
                 ];
             }, $enterprises)
         );
-    }
 
-    public function show(int $id, RetrieveEnterpriseById $retrieveEnterpriseById)
-    {
-        try {
-            $enterprise = $retrieveEnterpriseById->execute($id);
-
-            return response()->json([
-                'id' => $enterprise->getId(),
-                'name' => $enterprise->getName()
-            ]);
-
-        } catch(\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 404);
-        }
-    }
-
+}
     public function update(int $id, Request $request, UpdateEnterprise $updateEnterprise)
     {
         try {
@@ -94,5 +77,25 @@ class EnterpriseController extends Controller
             ],404);
         }
     }
+
+
+    public function show(int $id, RetrieveEnterpriseById $retrieveEnterpriseById)
+    {
+        try {
+            $enterprise = $retrieveEnterpriseById->execute($id);
+
+            return response()->json([
+                'id' => $enterprise->getId(),
+                'name' => $enterprise->getName()
+            ]);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+
 
 }

@@ -1,0 +1,169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Financial Management API",
+        "description": "API de gestão financeira empresarial",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/api/enterprise": {
+            "get": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Listar empresas",
+                "operationId": "cd7f26126fe4d3d1c3322a33e08ee2a0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de empresas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Criar empresa",
+                "operationId": "e58f1a1abd2793854df3b43063daec34",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Empresa XPTO"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Empresa criada"
+                    },
+                    "400": {
+                        "description": "Erro ao criar empresa"
+                    }
+                }
+            }
+        },
+        "/api/enterprise/{id}": {
+            "get": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Buscar empresa por ID",
+                "operationId": "b97edb85d1e4ead67255c3dd7e2cb277",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa encontrada"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Atualizar empresa",
+                "operationId": "c9e232fa53dc69204ab391e581eaa7b9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Empresa Atualizada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa atualizada"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Remover empresa",
+                "operationId": "eade857e36863726558bb101e1b4b1df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa removida"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Enterprise",
+            "description": "Enterprise"
+        }
+    ]
+}
