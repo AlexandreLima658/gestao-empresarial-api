@@ -12,6 +12,135 @@
         }
     ],
     "paths": {
+        "/api/cost-centers": {
+            "post": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Criar centro de custo",
+                "operationId": "37bdd9e27c99fe6b17ac0559003e8e65",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "enteprise_id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "enterprise_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Centro de custo XPTO"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Centro de custo criado"
+                    },
+                    "400": {
+                        "description": "Erro ao criar um centro de custo"
+                    }
+                }
+            }
+        },
+        "/api/enterprise/{enterpriseId}/cost-centers": {
+            "get": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Listar centros de custo por empresa",
+                "operationId": "b58edc9ab53106a0ea89586453ce3376",
+                "parameters": [
+                    {
+                        "name": "enterpriseId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Centro de custo encontrad"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/cost-centers/{id}": {
+            "put": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Atualizar centro de custo",
+                "operationId": "8f6032aed503ae3cab7d78088f970fad",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Centro de custo Atualizado"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Centro de custo atualizado"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Remover centro de custo",
+                "operationId": "f14182f108f9d62195acb79db8f05c5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cento de custo removido"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            }
+        },
         "/api/enterprise": {
             "get": {
                 "tags": [
@@ -224,6 +353,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Cost Center",
+            "description": "Cost Center"
+        },
         {
             "name": "Enterprise",
             "description": "Enterprise"

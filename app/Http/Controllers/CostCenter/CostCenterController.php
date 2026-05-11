@@ -9,7 +9,7 @@ use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CostCenterController extends Controller
+class CostCenterController extends Controller implements CostCenterAPI
 {
 
     public function store(Request $request, CreateCostCenter $createCostCenter)
