@@ -9,7 +9,7 @@ use App\Application\UseCases\Financial\create\CreateFinancialOutput;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FinancialEntryController extends Controller
+class FinancialEntryController extends Controller implements FinancialEntryAPI
 {
     public function store(Request $request, CreateFinancialEntry $useCase)
     {

@@ -201,6 +201,38 @@ A API pode ser testada utilizando:
 
 ---
 
+## 📚 Documentação da API (Swagger)
+
+A documentação da API foi integrada utilizando o Swagger/OpenAPI através do pacote L5-Swagger.
+
+### 🚀 Gerar documentação
+
+Execute o comando:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+### ▶️ Executar aplicação
+```bash
+php artisan serve
+```
+
+### 🌐 Acessar Swagger UI
+
+Com a aplicação em execução, acesse:
+http://127.0.0.1:8000/api/documentation
+
+### 📌 Endpoints documentados
+
+Atualmente a API possui documentação para os seguintes módulos:
+
+  - Empresas (Enterprise)
+  - Centros de custo (Cost Center)
+  - Lançamentos financeiros (Financial Entry)
+  - Fluxo de caixa (Cash Flow)
+  - Fechamento mensal (Monthly Closing)
+---
 ## 🧠 Decisões Técnicas
 
 * Separação entre **domínio e infraestrutura**

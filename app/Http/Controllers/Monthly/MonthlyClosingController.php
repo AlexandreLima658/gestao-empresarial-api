@@ -8,7 +8,7 @@ use App\Application\UseCases\Monthly\CloseMonthlyCashFlowOutput;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MonthlyClosingController extends Controller
+class MonthlyClosingController extends Controller implements MonthlyClosingAPI
 {
     public function store(Request $request, CloseMonthlyCashFlow $useCase)
     {

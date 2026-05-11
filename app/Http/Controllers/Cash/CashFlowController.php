@@ -6,7 +6,7 @@ use App\Application\UseCases\Cash\CashFlow;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CashFlowController extends Controller
+class CashFlowController extends Controller implements CashFlowAPI
 {
     public function index(Request $request, CashFlow $useCase)
     {

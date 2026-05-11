@@ -1,0 +1,522 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Financial Management API",
+        "description": "API de gestão financeira empresarial",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/api/cash-flow": {
+            "get": {
+                "tags": [
+                    "Cash Flow"
+                ],
+                "summary": "Consultar fluxo de caixa",
+                "operationId": "4cd2eef2150e0d4d3a073689aa039491",
+                "parameters": [
+                    {
+                        "name": "enterprise_id",
+                        "in": "query",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Data inicial",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-05-01"
+                        }
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Data final",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-05-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fluxo de caixa consolidado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "total_income": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 12000
+                                        },
+                                        "total_expense": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 4500
+                                        },
+                                        "balance": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 7500
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na consulta"
+                    }
+                }
+            }
+        },
+        "/api/cost-centers": {
+            "post": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Criar centro de custo",
+                "operationId": "37bdd9e27c99fe6b17ac0559003e8e65",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "enteprise_id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "enterprise_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Centro de custo XPTO"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Centro de custo criado"
+                    },
+                    "400": {
+                        "description": "Erro ao criar um centro de custo"
+                    }
+                }
+            }
+        },
+        "/api/enterprise/{enterpriseId}/cost-centers": {
+            "get": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Listar centros de custo por empresa",
+                "operationId": "b58edc9ab53106a0ea89586453ce3376",
+                "parameters": [
+                    {
+                        "name": "enterpriseId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Centro de custo encontrad"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/cost-centers/{id}": {
+            "put": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Atualizar centro de custo",
+                "operationId": "8f6032aed503ae3cab7d78088f970fad",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Centro de custo Atualizado"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Centro de custo atualizado"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cost Center"
+                ],
+                "summary": "Remover centro de custo",
+                "operationId": "f14182f108f9d62195acb79db8f05c5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cento de custo removido"
+                    },
+                    "404": {
+                        "description": "Centro de custo não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/enterprise": {
+            "get": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Listar empresas",
+                "operationId": "cd7f26126fe4d3d1c3322a33e08ee2a0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de empresas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Criar empresa",
+                "operationId": "e58f1a1abd2793854df3b43063daec34",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Empresa XPTO"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Empresa criada"
+                    },
+                    "400": {
+                        "description": "Erro ao criar empresa"
+                    }
+                }
+            }
+        },
+        "/api/enterprise/{id}": {
+            "get": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Buscar empresa por ID",
+                "operationId": "b97edb85d1e4ead67255c3dd7e2cb277",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa encontrada"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Atualizar empresa",
+                "operationId": "c9e232fa53dc69204ab391e581eaa7b9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Empresa Atualizada"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa atualizada"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Enterprise"
+                ],
+                "summary": "Remover empresa",
+                "operationId": "eade857e36863726558bb101e1b4b1df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa removida"
+                    },
+                    "404": {
+                        "description": "Empresa não encontrada"
+                    }
+                }
+            }
+        },
+        "/api/financial-entries": {
+            "post": {
+                "tags": [
+                    "Financial Entry"
+                ],
+                "summary": "Criar lançamento financeiro",
+                "operationId": "c8ee2602fdfbd3392e0c6c0deea9946f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "enterprise_id",
+                                    "cost_center_id",
+                                    "description",
+                                    "amount",
+                                    "type",
+                                    "entry_date"
+                                ],
+                                "properties": {
+                                    "enterprise_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cost_center_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Pagamento aluguel"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 3500
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "EXPENSE"
+                                    },
+                                    "entry_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-05-11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lançamento criado"
+                    },
+                    "400": {
+                        "description": "Erro ao criar lançamento"
+                    }
+                }
+            }
+        },
+        "/api/monthly-closing": {
+            "post": {
+                "tags": [
+                    "Monthly Closing"
+                ],
+                "summary": "Realizar fechamento mensal do fluxo de caixa",
+                "operationId": "f3d537840b3a42fcbff72faac34b673c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "enterprise_id",
+                                    "month",
+                                    "year"
+                                ],
+                                "properties": {
+                                    "enterprise_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "month": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": 2026
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Fechamento mensal realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "enterprise_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "month": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "year": {
+                                            "type": "integer",
+                                            "example": 2026
+                                        },
+                                        "closed": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao realizar fechamento mensal"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cash Flow",
+            "description": "Cash Flow"
+        },
+        {
+            "name": "Cost Center",
+            "description": "Cost Center"
+        },
+        {
+            "name": "Enterprise",
+            "description": "Enterprise"
+        },
+        {
+            "name": "Financial Entry",
+            "description": "Financial Entry"
+        },
+        {
+            "name": "Monthly Closing",
+            "description": "Monthly Closing"
+        }
+    ]
+}
