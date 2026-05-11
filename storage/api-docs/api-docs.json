@@ -158,12 +158,79 @@
                     }
                 }
             }
+        },
+        "/api/financial-entries": {
+            "post": {
+                "tags": [
+                    "Financial Entry"
+                ],
+                "summary": "Criar lançamento financeiro",
+                "operationId": "c8ee2602fdfbd3392e0c6c0deea9946f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "enterprise_id",
+                                    "cost_center_id",
+                                    "description",
+                                    "amount",
+                                    "type",
+                                    "entry_date"
+                                ],
+                                "properties": {
+                                    "enterprise_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cost_center_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Pagamento aluguel"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 3500
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "EXPENSE"
+                                    },
+                                    "entry_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-05-11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lançamento criado"
+                    },
+                    "400": {
+                        "description": "Erro ao criar lançamento"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Enterprise",
             "description": "Enterprise"
+        },
+        {
+            "name": "Financial Entry",
+            "description": "Financial Entry"
         }
     ]
 }
