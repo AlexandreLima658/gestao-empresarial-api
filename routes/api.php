@@ -1,34 +1,23 @@
 <?php
 
+use App\Http\Controllers\Cash\CashFlowController;
 use App\Http\Controllers\CostCenter\CostCenterController;
 use App\Http\Controllers\Enterprise\EnterpriseController;
-use \App\Http\Controllers\Financial\FinancialEntryController;
-use \App\Http\Controllers\Cash\CashFlowController;
-use \App\Http\Controllers\Monthly\MonthlyClosingController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Financial\FinancialEntryController;
+use App\Http\Controllers\Monthly\MonthlyClosingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
-Route::post('/enterprise', [EnterpriseController::class, 'store']);
-Route::get('/enterprise', [EnterpriseController::class, 'index']);
-Route::get('/enterprise/{id}', [EnterpriseController::class, 'show']);
-Route::put('/enterprise/{id}', [EnterpriseController::class, 'update']);
-Route::delete('/enterprise/{id}', [EnterpriseController::class, 'destroy']);
+Route::apiResource("/enterprise", EnterpriseController::class);
 
-Route::post('/cost-centers', [CostCenterController::class, 'store']);
+Route::apiResource("/cost-centers", CostCenterController::class);
+
+Route::apiResource("/financial-entries", FinancialEntryController::class);
+
+Route::apiResource("/cash-flow", CashFlowController::class);
+
+Route::apiResource('/monthly-closing', MonthlyClosingController::class);
+
 Route::get('/enterprise/{enterpriseId}/cost-centers',
     [CostCenterController::class, 'indexByEnterprise']
 );
-Route::put('/cost-centers/{id}', [CostCenterController::class, 'update']);
-Route::delete('/cost-centers/{id}', [CostCenterController::class, 'destroy']);
-
-Route::post(
-    '/financial-entries', [FinancialEntryController::class, 'store']
-);
-
-Route::get('/cash-flow', [CashFlowController::class, 'index']);
-
-Route::post('/monthly-closing', [MonthlyClosingController::class, 'store']);
