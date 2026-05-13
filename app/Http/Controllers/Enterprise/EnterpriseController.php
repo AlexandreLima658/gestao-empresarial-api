@@ -8,6 +8,7 @@ use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
 use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
 use App\Http\Controllers\Controller;
+use App\Presenters\EnterprisePresenter;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller implements EnterpriseAPI
@@ -25,26 +26,15 @@ class EnterpriseController extends Controller implements EnterpriseAPI
             $request->input('name')
         );
 
-        return response()->json([
-            'id' => $enterprise->getId(),
-            'name' => $enterprise->getName()
-        ], 201);
+        return response()->json(EnterprisePresenter::toJson($enterprise));
     }
 
     public function index(RetrieveEnterprise $retrieveEnterprise)
     {
         $enterprises = $retrieveEnterprise->execute();
 
-        return response()->json(
-            array_map(function($enterprise){
-                return [
-                    'id' => $enterprise->getId(),
-                    'name' => $enterprise->getName(),
-                ];
-            }, $enterprises)
-        );
-
-}
+        return response()->json(EnterprisePresenter::collection($enterprises));
+    }
     public function update(int $id, Request $request, UpdateEnterprise $updateEnterprise)
     {
         try {
@@ -53,10 +43,7 @@ class EnterpriseController extends Controller implements EnterpriseAPI
                 $request->input('name')
             );
 
-            return response()->json([
-                'id' => $enterprise->getId(),
-                'name' => $enterprise->getName()
-            ]);
+            return response()->json(EnterprisePresenter::toJson($enterprise));
         } catch(\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -83,11 +70,7 @@ class EnterpriseController extends Controller implements EnterpriseAPI
     {
         try {
             $enterprise = $retrieveEnterpriseById->execute($id);
-
-            return response()->json([
-                'id' => $enterprise->getId(),
-                'name' => $enterprise->getName()
-            ]);
+            return response()->json(EnterprisePresenter::toJson($enterprise));
 
         } catch(\Exception $e) {
             return response()->json([
@@ -95,7 +78,5 @@ class EnterpriseController extends Controller implements EnterpriseAPI
             ], 404);
         }
     }
-
-
 
 }
