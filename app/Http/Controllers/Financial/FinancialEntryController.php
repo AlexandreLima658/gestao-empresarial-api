@@ -7,6 +7,7 @@ use App\Application\UseCases\Financial\create\CreateFinancialEntry;
 use App\Application\UseCases\Financial\create\CreateFinancialInput;
 use App\Application\UseCases\Financial\create\CreateFinancialOutput;
 use App\Http\Controllers\Controller;
+use App\Presenters\FinancialEntryPresenter;
 use Illuminate\Http\Request;
 
 class FinancialEntryController extends Controller implements FinancialEntryAPI
@@ -16,12 +17,10 @@ class FinancialEntryController extends Controller implements FinancialEntryAPI
         try {
             $entry = $useCase->execute(CreateFinancialInput::from($request));
 
-            return response()->json([
-                'id' => $entry->id,
-                'description' => $entry->description,
-                'amount' => $entry->amount,
-                'type' => $entry->type,
-            ],201);
+            return response()->json(
+                FinancialEntryPresenter::toResponse($entry),
+                201
+            );
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

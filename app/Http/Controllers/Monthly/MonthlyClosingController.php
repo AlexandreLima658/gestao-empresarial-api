@@ -6,6 +6,7 @@ use App\Application\UseCases\Monthly\CloseMonthlyCashFlow;
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlowInput;
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlowOutput;
 use App\Http\Controllers\Controller;
+use App\Presenters\MonthlyClosingPresenter;
 use Illuminate\Http\Request;
 
 class MonthlyClosingController extends Controller implements MonthlyClosingAPI
@@ -15,12 +16,10 @@ class MonthlyClosingController extends Controller implements MonthlyClosingAPI
         try {
             $closing = $useCase->execute(CloseMonthlyCashFlowInput::from($request));
 
-            return response()->json([
-                'enterprise_id' => $closing->enterpriseId,
-                'month' => $closing->month,
-                'year' => $closing->year,
-                'closed' => true
-            ]);
+            return response()->json(
+                MonthlyClosingPresenter::toResponse($closing),
+                201
+                );
 
         } catch (\Exception $e) {
             return response()->json([

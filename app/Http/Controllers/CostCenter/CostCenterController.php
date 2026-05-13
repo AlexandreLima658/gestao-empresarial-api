@@ -7,6 +7,7 @@ use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
 use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
 use App\Http\Controllers\Controller;
+use App\Presenters\CostCenterPresenter;
 use Illuminate\Http\Request;
 
 class CostCenterController extends Controller implements CostCenterAPI
@@ -20,11 +21,7 @@ class CostCenterController extends Controller implements CostCenterAPI
                 $request->input('name'),
             );
 
-            return response()->json([
-                'id' => $costCenter->getId(),
-                'enterprise_id' => $costCenter->getEnterpriseId(),
-                'name' => $costCenter->getName(),
-            ], 201);
+            return response()->json(CostCenterPresenter::toJson($costCenter), 201);
 
         } catch (\Exception $exception) {
             return response()->json([
@@ -37,12 +34,7 @@ class CostCenterController extends Controller implements CostCenterAPI
     {
         try {
             $costCenters = $useCase->execute($enterpriseId);
-
-            return $costCenters->map(fn($item) => [
-                'id' => $item->getId(),
-                'enterprise_id' => $item->getEnterpriseId(),
-                'name' => $item->getName(),
-            ]);
+            return CostCenterPresenter::collection($costCenters);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -59,11 +51,7 @@ class CostCenterController extends Controller implements CostCenterAPI
                 $request->input('name'),
             );
 
-            return response()->json([
-                'id' => $costCenter->getId(),
-                'enterprise_id' => $costCenter->getEnterpriseId(),
-                'name' => $costCenter->getName(),
-            ]);
+            return response()->json(CostCenterPresenter::toJson($costCenter));
 
         } catch (\Exception $e) {
             return response()->json([
