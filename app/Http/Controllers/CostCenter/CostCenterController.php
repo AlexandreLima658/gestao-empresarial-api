@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\CostCenter;
 
-use App\Application\UseCases\CostCenter\create\CreateCostCenter;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterInput;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterUseCase;
 use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
 use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
@@ -13,15 +14,12 @@ use Illuminate\Http\Request;
 class CostCenterController extends Controller implements CostCenterAPI
 {
 
-    public function store(Request $request, CreateCostCenter $createCostCenter)
+    public function store(Request $request, CreateCostCenterUseCase $createCostCenter)
     {
         try {
-            $costCenter = $createCostCenter->execute(
-                $request->input('enterprise_id'),
-                $request->input('name'),
-            );
+            $costCenter = $createCostCenter->execute(CreateCostCenterInput::from($request));
 
-            return response()->json(CostCenterPresenter::toJson($costCenter), 201);
+            return response()->json(CostCenterPresenter::toResponse($costCenter), 201);
 
         } catch (\Exception $exception) {
             return response()->json([

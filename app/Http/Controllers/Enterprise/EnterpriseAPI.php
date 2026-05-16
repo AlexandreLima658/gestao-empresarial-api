@@ -7,6 +7,7 @@ use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
 use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
+
 interface EnterpriseAPI
 {
 

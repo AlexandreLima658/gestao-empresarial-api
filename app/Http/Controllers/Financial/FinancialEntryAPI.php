@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Financial;
 
 use App\Application\UseCases\Financial\create\CreateFinancialEntry;
 use Illuminate\Http\Request;
-
 use OpenApi\Attributes as OA;
 
 interface FinancialEntryAPI

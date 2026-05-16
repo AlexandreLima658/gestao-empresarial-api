@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Monthly;
 
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlow;
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlowInput;
-use App\Application\UseCases\Monthly\CloseMonthlyCashFlowOutput;
 use App\Http\Controllers\Controller;
 use App\Presenters\MonthlyClosingPresenter;
 use Illuminate\Http\Request;

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Financial;
 
 use App\Application\UseCases\Financial\create\CreateFinancialEntry;
-
 use App\Application\UseCases\Financial\create\CreateFinancialInput;
-use App\Application\UseCases\Financial\create\CreateFinancialOutput;
 use App\Http\Controllers\Controller;
 use App\Presenters\FinancialEntryPresenter;
 use Illuminate\Http\Request;

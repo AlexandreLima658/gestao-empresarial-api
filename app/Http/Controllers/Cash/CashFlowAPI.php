@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cash;
 use App\Application\UseCases\Cash\CashFlow;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
+
 interface CashFlowAPI
 {
     #[OA\Get(

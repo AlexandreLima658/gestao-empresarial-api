@@ -2,12 +2,15 @@
 
 namespace App\Application\UseCases\CostCenter\create;
 
-use App\Domain\Entities\CostCenter\CostCenter;
+use App\Application\UseCases\UseCase;
 use App\Domain\Entities\CostCenter\CostCenterFactory;
 use App\Domain\Repositories\CostCenter\CostCenterRepository;
 use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 
-class CreateCostCenter
+/**
+ * @extends UseCase<CreateCostCenterInput, CreateCostCenterOutput>
+ */
+class CreateCostCenterUseCase extends UseCase
 {
     private CostCenterRepository $costCenterRepository;
     private EnterpriseRepository $enterpriseRepository;
@@ -25,26 +28,42 @@ class CreateCostCenter
         $this->enterpriseRepository = $enterpriseRepository;
     }
 
-    public function execute(int $enterpriseId, string $name): CostCenter
+    /**
+     * @param CreateCostCenterInput $input
+     * @return CreateCostCenterOutput
+     */
+    public function execute($input): CreateCostCenterOutput
     {
 
-        $enterprise = $this->enterpriseRepository->findById($enterpriseId);
+        $enterprise = $this->enterpriseRepository
+            ->findById($input->enterpriseId);
 
         if(!$enterprise){
             throw new \Exception("Enterprise not found");
         }
 
         $alreadyExists = $this->costCenterRepository
-            ->existsByNameAndEnterpriseId($name,$enterpriseId);
+            ->existsByNameAndEnterpriseId(
+                $input->name,
+                $input->enterpriseId
+            );
 
         if ($alreadyExists) {
             throw new \Exception("Cost Center already exists for enterprise");
         }
 
-        $costCenter = CostCenterFactory::createWithIdNull($enterpriseId, $name);
+        $costCenter = CostCenterFactory::createWithIdNull(
+            $input->enterpriseId,
+            $input->name
+        );
 
-        return $this->costCenterRepository->save($costCenter);
+        $costCenterModel = $this->costCenterRepository->save($costCenter);
 
+        return new CreateCostCenterOutput(
+            $costCenterModel->getId(),
+            $costCenterModel->getEnterpriseId(),
+            $costCenterModel->getName(),
+        );
     }
 
 }

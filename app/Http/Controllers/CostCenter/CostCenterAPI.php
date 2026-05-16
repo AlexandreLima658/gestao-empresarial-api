@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\CostCenter;
 
-use App\Application\UseCases\CostCenter\create\CreateCostCenter;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterUseCase;
 use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
 use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
@@ -46,7 +46,7 @@ interface CostCenterAPI
         response: 400,
         description: "Erro ao criar um centro de custo"
     )]
-    public function store(Request $request, CreateCostCenter $createCostCenter);
+    public function store(Request $request, CreateCostCenterUseCase $createCostCenter);
     #[OA\Get(
         path: "/api/enterprise/{enterpriseId}/cost-centers",
         summary: "Listar centros de custo por empresa",
