@@ -161,6 +161,17 @@
                 ],
                 "summary": "Atualizar centro de custo",
                 "operationId": "8f6032aed503ae3cab7d78088f970fad",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do centro de custo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {

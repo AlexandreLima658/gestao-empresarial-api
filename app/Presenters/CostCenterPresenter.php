@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Application\UseCases\CostCenter\create\CreateCostCenterOutput;
+use App\Application\UseCases\CostCenter\update\UpdateCostCenterOutput;
 use App\Domain\Entities\CostCenter\CostCenter;
 use Illuminate\Support\Collection;
 
@@ -17,11 +18,19 @@ class CostCenterPresenter
         ];
     }
 
-    public static function toResponse(CreateCostCenterOutput $cost): array
+    public static function toResponseCreate(CreateCostCenterOutput $cost): array
     {
         return [
             'id' => $cost->costCenterId,
             'enterprise_id' => $cost->enterpriseId,
+            'name' => $cost->name,
+        ];
+    }
+
+    public static function toResponseUpdate(UpdateCostCenterOutput $cost): array
+    {
+        return [
+            'id' => $cost->id,
             'name' => $cost->name,
         ];
     }

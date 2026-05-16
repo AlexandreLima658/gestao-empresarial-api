@@ -5,7 +5,7 @@ namespace App\Http\Controllers\CostCenter;
 use App\Application\UseCases\CostCenter\create\CreateCostCenterUseCase;
 use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
-use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
+use App\Application\UseCases\CostCenter\update\UpdateCostCenterUseCase;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -76,6 +76,14 @@ interface CostCenterAPI
         tags: ["Cost Center"]
     )]
 
+    #[OA\Parameter(
+        name: "id",
+        description: "ID do centro de custo",
+        in: "path",
+        required: true,
+        schema: new OA\Schema(type: "integer")
+    )]
+
     #[OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
@@ -99,7 +107,7 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function update(int $id, Request $request, UpdateCostCenter $updateCostCenter);
+    public function update(int $id, Request $request, UpdateCostCenterUseCase $updateCostCenter);
     #[OA\Delete(
         path: "/api/cost-centers/{id}",
         summary: "Remover centro de custo",
