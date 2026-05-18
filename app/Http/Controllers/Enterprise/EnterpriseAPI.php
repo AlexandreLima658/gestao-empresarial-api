@@ -137,6 +137,6 @@ interface EnterpriseAPI
         response: 404,
         description: "Empresa não encontrada"
     )]
-    public function update(int $id, Request $request, UpdateEnterprise $updateEnterprise);
+    public function update(int $id, Request $request);
 
 }

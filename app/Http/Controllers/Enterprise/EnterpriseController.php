@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Enterprise;
 
-use App\Application\UseCases\Enterprise\create\CreateEnterprise;
+use App\Application\UseCases\Enterprise\create\CreateEnterpriseInput;
+use App\Application\UseCases\Enterprise\create\CreateEnterpriseUseCase;
 use App\Application\UseCases\Enterprise\Delete\DeleteEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
 use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
@@ -13,17 +14,22 @@ use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller implements EnterpriseAPI
 {
-    private CreateEnterprise $createEnterprise;
+    private CreateEnterpriseUseCase $createEnterprise;
+    private UpdateEnterprise $updateEnterprise;
 
-    public function __construct(CreateEnterprise $createEnterprise)
+    public function __construct(
+        CreateEnterpriseUseCase $createEnterprise,
+        UpdateEnterprise $updateEnterprise
+    )
     {
         $this->createEnterprise = $createEnterprise;
+        $this->updateEnterprise = $updateEnterprise;
     }
 
     public function store(Request $request)
     {
         $enterprise = $this->createEnterprise->execute(
-            $request->input('name')
+            CreateEnterpriseInput::from($request)
         );
 
         return response()->json(EnterprisePresenter::toJson($enterprise));
@@ -35,15 +41,17 @@ class EnterpriseController extends Controller implements EnterpriseAPI
 
         return response()->json(EnterprisePresenter::collection($enterprises));
     }
-    public function update(int $id, Request $request, UpdateEnterprise $updateEnterprise)
+    public function update(int $id, Request $request)
     {
         try {
-            $enterprise = $updateEnterprise->execute(
+            $enterprise = $this->updateEnterprise->execute(
                 $id,
                 $request->input('name')
             );
+            // TODO: Continue implementation
 
             return response()->json(EnterprisePresenter::toJson($enterprise));
+
         } catch(\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

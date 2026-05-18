@@ -14,11 +14,28 @@ use Illuminate\Http\Request;
 
 class CostCenterController extends Controller implements CostCenterAPI
 {
+    private CreateCostCenterUseCase $createCostCenter;
+    private RetrieveCostCenterByEnterprise $retrieveCostCenter;
+    private UpdateCostCenterUseCase $updateCostCenter;
+    private DeleteCostCenter $delete;
 
-    public function store(Request $request, CreateCostCenterUseCase $createCostCenter)
+    public function __construct(
+        CreateCostCenterUseCase $createCostCenter,
+        RetrieveCostCenterByEnterprise $retrieveCostCenterByEnterprise,
+        UpdateCostCenterUseCase $updateCostCenter,
+        DeleteCostCenter $delete
+    )
+    {
+        $this->createCostCenter = $createCostCenter;
+        $this->retrieveCostCenter = $retrieveCostCenterByEnterprise;
+        $this->updateCostCenter = $updateCostCenter;
+        $this->delete = $delete;
+    }
+
+    public function store(Request $request)
     {
         try {
-            $costCenter = $createCostCenter->execute(CreateCostCenterInput::from($request));
+            $costCenter = $this->createCostCenter->execute(CreateCostCenterInput::from($request));
 
             return response()->json(
                 CostCenterPresenter::toResponseCreate($costCenter),
@@ -32,10 +49,10 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function indexByEnterprise(int $enterpriseId, RetrieveCostCenterByEnterprise $useCase)
+    public function indexByEnterprise(int $enterpriseId)
     {
         try {
-            $costCenters = $useCase->execute($enterpriseId);
+            $costCenters = $this->retrieveCostCenter->execute($enterpriseId);
             return CostCenterPresenter::collection($costCenters);
 
         } catch (\Exception $e) {
@@ -45,10 +62,10 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function update(int $id, Request $request, UpdateCostCenterUseCase $updateCostCenter)
+    public function update(int $id, Request $request)
     {
         try {
-            $costCenter = $updateCostCenter->execute(UpdateCostCenterInput::from($id, $request));
+            $costCenter = $this->updateCostCenter->execute(UpdateCostCenterInput::from($id, $request));
 
             return response()->json(CostCenterPresenter::toResponseUpdate($costCenter));
 
@@ -59,10 +76,10 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function destroy(int $id, DeleteCostCenter $delete)
+    public function destroy(int $id)
     {
         try {
-            $delete->execute($id);
+            $this->delete->execute($id);
             return response()->json([
                 'message' => 'Cost center delete successfully'
             ]);

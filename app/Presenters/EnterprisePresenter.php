@@ -2,15 +2,16 @@
 
 namespace App\Presenters;
 
+use App\Application\UseCases\Enterprise\create\CreateEnterpriseOutput;
 use App\Domain\Entities\Enterprise\Enterprise;
 
 class EnterprisePresenter
 {
-    public static function toJson(Enterprise $enterprise): array
+    public static function toJson(CreateEnterpriseOutput $enterprise): array
     {
         return [
-            'id' => $enterprise->getId(),
-            'name' => $enterprise->getName()
+            'id' => $enterprise->id,
+            'name' => $enterprise->name
         ];
     }
 

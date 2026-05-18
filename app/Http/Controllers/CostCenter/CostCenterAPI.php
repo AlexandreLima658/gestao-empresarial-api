@@ -46,7 +46,7 @@ interface CostCenterAPI
         response: 400,
         description: "Erro ao criar um centro de custo"
     )]
-    public function store(Request $request, CreateCostCenterUseCase $createCostCenter);
+    public function store(Request $request);
     #[OA\Get(
         path: "/api/enterprise/{enterpriseId}/cost-centers",
         summary: "Listar centros de custo por empresa",
@@ -68,7 +68,7 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function indexByEnterprise(int $enterpriseId, RetrieveCostCenterByEnterprise $useCase);
+    public function indexByEnterprise(int $enterpriseId);
 
     #[OA\Put(
         path: "/api/cost-centers/{id}",
@@ -107,7 +107,7 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function update(int $id, Request $request, UpdateCostCenterUseCase $updateCostCenter);
+    public function update(int $id, Request $request);
     #[OA\Delete(
         path: "/api/cost-centers/{id}",
         summary: "Remover centro de custo",
@@ -129,6 +129,6 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function destroy(int $id, DeleteCostCenter $delete);
+    public function destroy(int $id);
 
 }
