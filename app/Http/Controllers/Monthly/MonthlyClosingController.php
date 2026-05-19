@@ -10,10 +10,17 @@ use Illuminate\Http\Request;
 
 class MonthlyClosingController extends Controller implements MonthlyClosingAPI
 {
-    public function store(Request $request, CloseMonthlyCashFlow $useCase)
+
+    public function __construct(
+        private CloseMonthlyCashFlow $useCase
+    )
+    {}
+    public function store(Request $request)
     {
         try {
-            $closing = $useCase->execute(CloseMonthlyCashFlowInput::from($request));
+            $closing = $this->useCase->execute(
+                CloseMonthlyCashFlowInput::from($request)
+            );
 
             return response()->json(
                 MonthlyClosingPresenter::toResponse($closing),

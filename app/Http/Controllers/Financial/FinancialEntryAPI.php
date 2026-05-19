@@ -77,5 +77,5 @@ interface FinancialEntryAPI
         response: 400,
         description: "Erro ao criar lançamento"
     )]
-    public function store(Request $request, CreateFinancialEntry $useCase);
+    public function store(Request $request);
 }

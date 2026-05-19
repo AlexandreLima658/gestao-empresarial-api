@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class CashFlowController extends Controller implements CashFlowAPI
 {
-    public function index(Request $request, CashFlow $useCase)
+    public function __construct(
+        private CashFlow $useCase
+    )
+    {}
+    public function index(Request $request)
     {
         try {
-            $cashFlow = $useCase->execute(
+            $cashFlow = $this->useCase->execute(
                 $request->input('enterprise_id'),
                 $request->input('start_date'),
                 $request->input('end_date'),

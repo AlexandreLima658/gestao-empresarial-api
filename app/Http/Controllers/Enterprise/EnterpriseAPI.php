@@ -49,7 +49,7 @@ interface EnterpriseAPI
         in: "query",
         description: "Número da página atual",
         required: false,
-        schema: new OA\Schema(type: "integer", default: 0)
+        schema: new OA\Schema(type: "integer", default: 1)
     )]
     #[OA\Parameter(
         name: "perPage",
@@ -84,7 +84,7 @@ interface EnterpriseAPI
         description: "Lista de empresas paginada",
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(property: "current_page", type: "integer", example: 0),
+                new OA\Property(property: "current_page", type: "integer", example: 1),
                 new OA\Property(property: "per_page", type: "integer", example: 10),
                 new OA\Property(property: "total", type: "integer", example: 30),
                 new OA\Property(

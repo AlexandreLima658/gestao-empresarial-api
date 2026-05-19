@@ -10,10 +10,18 @@ use Illuminate\Http\Request;
 
 class FinancialEntryController extends Controller implements FinancialEntryAPI
 {
-    public function store(Request $request, CreateFinancialEntry $useCase)
+
+    public function __construct(
+        private CreateFinancialEntry $useCase
+    )
+    {}
+
+    public function store(Request $request)
     {
         try {
-            $entry = $useCase->execute(CreateFinancialInput::from($request));
+            $entry = $this->useCase->execute(
+                CreateFinancialInput::from($request)
+            );
 
             return response()->json(
                 FinancialEntryPresenter::toResponse($entry),

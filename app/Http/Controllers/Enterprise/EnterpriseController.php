@@ -17,29 +17,16 @@ use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller implements EnterpriseAPI
 {
-    private CreateEnterpriseUseCase $createEnterprise;
-    private RetrieveEnterprisesImpl $retrieveEnterprise;
-    private RetrieveEnterpriseById $retrieveEnterpriseById;
-    private UpdateEnterpriseUseCase $updateEnterprise;
-    private DeleteEnterprise $deleteEnterprise;
-
     public function __construct(
-        CreateEnterpriseUseCase $createEnterprise,
-        RetrieveEnterprisesImpl $retrieveEnterprise,
-        RetrieveEnterpriseById  $retrieveEnterpriseById,
-        UpdateEnterpriseUseCase $updateEnterprise,
-        DeleteEnterprise        $deleteEnterprise
+        private CreateEnterpriseUseCase $createEnterprise,
+        private RetrieveEnterprisesImpl $retrieveEnterprise,
+        private RetrieveEnterpriseById  $retrieveEnterpriseById,
+        private UpdateEnterpriseUseCase $updateEnterprise,
+        private DeleteEnterprise $deleteEnterprise
 
 
     )
-    {
-        $this->createEnterprise = $createEnterprise;
-        $this->retrieveEnterprise = $retrieveEnterprise;
-        $this->retrieveEnterpriseById = $retrieveEnterpriseById;
-        $this->updateEnterprise = $updateEnterprise;
-        $this->deleteEnterprise = $deleteEnterprise;
-    }
-
+    {}
     public function store(Request $request)
     {
         $enterprise = $this->createEnterprise->execute(

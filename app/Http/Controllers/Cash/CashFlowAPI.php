@@ -82,5 +82,5 @@ interface CashFlowAPI
         response: 400,
         description: "Erro na consulta"
     )]
-    public function index(Request $request, CashFlow $useCase);
+    public function index(Request $request);
 }

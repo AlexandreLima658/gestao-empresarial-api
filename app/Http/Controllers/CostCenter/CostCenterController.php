@@ -14,24 +14,13 @@ use Illuminate\Http\Request;
 
 class CostCenterController extends Controller implements CostCenterAPI
 {
-    private CreateCostCenterUseCase $createCostCenter;
-    private RetrieveCostCenterByEnterprise $retrieveCostCenter;
-    private UpdateCostCenterUseCase $updateCostCenter;
-    private DeleteCostCenter $delete;
-
     public function __construct(
-        CreateCostCenterUseCase $createCostCenter,
-        RetrieveCostCenterByEnterprise $retrieveCostCenterByEnterprise,
-        UpdateCostCenterUseCase $updateCostCenter,
-        DeleteCostCenter $delete
+        private CreateCostCenterUseCase $createCostCenter,
+        private RetrieveCostCenterByEnterprise $retrieveCostCenter,
+        private UpdateCostCenterUseCase $updateCostCenter,
+        private DeleteCostCenter $delete
     )
-    {
-        $this->createCostCenter = $createCostCenter;
-        $this->retrieveCostCenter = $retrieveCostCenterByEnterprise;
-        $this->updateCostCenter = $updateCostCenter;
-        $this->delete = $delete;
-    }
-
+    {}
     public function store(Request $request)
     {
         try {
@@ -65,7 +54,9 @@ class CostCenterController extends Controller implements CostCenterAPI
     public function update(int $id, Request $request)
     {
         try {
-            $costCenter = $this->updateCostCenter->execute(UpdateCostCenterInput::from($id, $request));
+            $costCenter = $this->updateCostCenter->execute(
+                UpdateCostCenterInput::from($id, $request)
+            );
 
             return response()->json(CostCenterPresenter::toResponseUpdate($costCenter));
 
