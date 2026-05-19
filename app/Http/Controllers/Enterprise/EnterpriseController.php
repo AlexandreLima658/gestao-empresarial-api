@@ -5,25 +5,39 @@ namespace App\Http\Controllers\Enterprise;
 use App\Application\UseCases\Enterprise\create\CreateEnterpriseInput;
 use App\Application\UseCases\Enterprise\create\CreateEnterpriseUseCase;
 use App\Application\UseCases\Enterprise\Delete\DeleteEnterprise;
-use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
-use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
-use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
+use App\Application\UseCases\Enterprise\retrieve\Filter\RetrieveEnterprisesInput;
+use App\Application\UseCases\Enterprise\retrieve\Id\RetrieveEnterpriseById;
+use App\Application\UseCases\Enterprise\update\UpdateEnterpriseInput;
+use App\Application\UseCases\Enterprise\update\UpdateEnterpriseUseCase;
 use App\Http\Controllers\Controller;
+use App\Infrastructure\Repositories\Implementations\RetrieveEnterprisesImpl;
 use App\Presenters\EnterprisePresenter;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EnterpriseController extends Controller implements EnterpriseAPI
 {
     private CreateEnterpriseUseCase $createEnterprise;
-    private UpdateEnterprise $updateEnterprise;
+    private RetrieveEnterprisesImpl $retrieveEnterprise;
+    private RetrieveEnterpriseById $retrieveEnterpriseById;
+    private UpdateEnterpriseUseCase $updateEnterprise;
+    private DeleteEnterprise $deleteEnterprise;
 
     public function __construct(
         CreateEnterpriseUseCase $createEnterprise,
-        UpdateEnterprise $updateEnterprise
+        RetrieveEnterprisesImpl $retrieveEnterprise,
+        RetrieveEnterpriseById  $retrieveEnterpriseById,
+        UpdateEnterpriseUseCase $updateEnterprise,
+        DeleteEnterprise        $deleteEnterprise
+
+
     )
     {
         $this->createEnterprise = $createEnterprise;
+        $this->retrieveEnterprise = $retrieveEnterprise;
+        $this->retrieveEnterpriseById = $retrieveEnterpriseById;
         $this->updateEnterprise = $updateEnterprise;
+        $this->deleteEnterprise = $deleteEnterprise;
     }
 
     public function store(Request $request)
@@ -32,25 +46,29 @@ class EnterpriseController extends Controller implements EnterpriseAPI
             CreateEnterpriseInput::from($request)
         );
 
-        return response()->json(EnterprisePresenter::toJson($enterprise));
+        return response()->json(EnterprisePresenter::toJsonCreate($enterprise));
     }
 
-    public function index(RetrieveEnterprise $retrieveEnterprise)
+    public function index(Request $request): JsonResponse
     {
-        $enterprises = $retrieveEnterprise->execute();
+        $input = RetrieveEnterprisesInput::toInput($request);
 
-        return response()->json(EnterprisePresenter::collection($enterprises));
+        $pagination = $this->retrieveEnterprise->execute($input);
+
+        return response()->json(
+            EnterprisePresenter::present($pagination)
+        );
     }
     public function update(int $id, Request $request)
     {
         try {
             $enterprise = $this->updateEnterprise->execute(
-                $id,
-                $request->input('name')
+                UpdateEnterpriseInput::from($id, $request)
             );
-            // TODO: Continue implementation
 
-            return response()->json(EnterprisePresenter::toJson($enterprise));
+            return response()->json(
+                EnterprisePresenter::toJsonUpdate($enterprise)
+            );
 
         } catch(\Exception $e) {
             return response()->json([
@@ -59,10 +77,10 @@ class EnterpriseController extends Controller implements EnterpriseAPI
         }
     }
 
-    public function destroy(int $id, DeleteEnterprise $deleteEnterprise)
+    public function destroy(int $id)
     {
         try {
-            $deleteEnterprise->execute($id);
+            $this->deleteEnterprise->execute($id);
             return response()->json([
                 'message' => 'Enterprise delete successfully'
             ]);
@@ -74,11 +92,14 @@ class EnterpriseController extends Controller implements EnterpriseAPI
     }
 
 
-    public function show(int $id, RetrieveEnterpriseById $retrieveEnterpriseById)
+    public function show(int $id)
     {
         try {
-            $enterprise = $retrieveEnterpriseById->execute($id);
-            return response()->json(EnterprisePresenter::toJson($enterprise));
+            $enterprise = $this->retrieveEnterpriseById->execute($id);
+
+            return response()->json(
+                EnterprisePresenter::toJson($enterprise)
+            );
 
         } catch(\Exception $e) {
             return response()->json([

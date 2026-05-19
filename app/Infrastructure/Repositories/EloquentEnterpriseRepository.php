@@ -8,36 +8,36 @@ use App\Models\EnterpriseModel;
 
 class EloquentEnterpriseRepository implements EnterpriseRepository
 {
+    public function __construct(
+        private EnterpriseModel $enterpriseModel
+    )
+    {}
+
     public function save(Enterprise $enterprise): Enterprise
     {
-
-        $model = EnterpriseModel::create([
-            'name' => $enterprise->getName()
-        ]);
+        $model = $this->enterpriseModel
+                ->query()
+                ->create([
+                    'name' => $enterprise->getName()
+                ]);
 
         return $this->mapper($model);
 
     }
 
-    public function findAll(): array
-    {
-        return EnterpriseModel::all()
-            ->map(fn($model) => $this->mapper($model))
-            ->toArray();
-    }
-
     public function findById(int $id): ?Enterprise
     {
-        $model = EnterpriseModel::find($id);
+        $model = $this->enterpriseModel
+            ->query()
+            ->find($id);
 
         return $model ? $this->mapper($model) : null;
 
     }
 
-
     public function update(Enterprise $enterprise): Enterprise
     {
-        $model = EnterpriseModel::find($enterprise->getId());
+        $model = EnterpriseModel::query()->find($enterprise->getId());
 
         if(!$model) {
             throw new \Exception('Enterprise not found');
@@ -50,10 +50,11 @@ class EloquentEnterpriseRepository implements EnterpriseRepository
         return $this->mapper($model);
     }
 
-
     public function delete(int $id): void
     {
-       $model = EnterpriseModel::find($id);
+       $model = $this->enterpriseModel
+            ->query()
+            ->find($id);
 
        if(!$model) {
            throw new \Exception('Enterprise not found');

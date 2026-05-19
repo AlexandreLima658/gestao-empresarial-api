@@ -1,10 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Enterprise;
-use App\Application\UseCases\Enterprise\Delete\DeleteEnterprise;
-use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterprise;
-use App\Application\UseCases\Enterprise\retrieve\RetrieveEnterpriseById;
-use App\Application\UseCases\Enterprise\update\UpdateEnterprise;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -42,16 +38,69 @@ interface EnterpriseAPI
     )]
     public function store(Request $request);
 
-    #[OA\Get(
-        path: "/api/enterprise", summary: "Listar empresas", tags: ["Enterprise"]
-    )]
 
+    #[OA\Get(
+        path: "/api/enterprise",
+        summary: "Listar empresas",
+        tags: ["Enterprise"]
+    )]
+    #[OA\Parameter(
+        name: "page",
+        in: "query",
+        description: "Número da página atual",
+        required: false,
+        schema: new OA\Schema(type: "integer", default: 0)
+    )]
+    #[OA\Parameter(
+        name: "perPage",
+        in: "query",
+        description: "Quantidade de itens por página",
+        required: false,
+        schema: new OA\Schema(type: "integer", default: 10)
+    )]
+    #[OA\Parameter(
+        name: "sort",
+        in: "query",
+        description: "Coluna para ordenação",
+        required: false,
+        schema: new OA\Schema(type: "string", default: "name")
+    )]
+    #[OA\Parameter(
+        name: "direction",
+        in: "query",
+        description: "Direção da ordenação (asc ou desc)",
+        required: false,
+        schema: new OA\Schema(type: "string", enum: ["asc", "desc"], default: "asc")
+    )]
+    #[OA\Parameter(
+        name: "query",
+        in: "query",
+        description: "Termo para busca/filtro",
+        required: false,
+        schema: new OA\Schema(type: "string")
+    )]
     #[OA\Response(
         response: 200,
-        description: "Lista de empresas"
+        description: "Lista de empresas paginada",
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: "current_page", type: "integer", example: 0),
+                new OA\Property(property: "per_page", type: "integer", example: 10),
+                new OA\Property(property: "total", type: "integer", example: 30),
+                new OA\Property(
+                    property: "items",
+                    type: "array",
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: "id", type: "integer", example: 1),
+                            new OA\Property(property: "name", type: "string", example: "Empresa ACME"),
+                        ]
+                    )
+                )
+            ]
+        )
     )]
-    public function index(RetrieveEnterprise $retrieveEnterprise);
-
+    public function index(Request $request);
     #[OA\Get(
         path: "/api/enterprise/{id}",
         summary: "Buscar empresa por ID",
@@ -75,7 +124,7 @@ interface EnterpriseAPI
         response: 404,
         description: "Empresa não encontrada"
     )]
-    public function show(int $id, RetrieveEnterpriseById $retrieveEnterpriseById);
+    public function show(int $id);
     #[OA\Delete(
         path: "/api/enterprise/{id}",
         summary: "Remover empresa",
@@ -99,7 +148,7 @@ interface EnterpriseAPI
         response: 404,
         description: "Empresa não encontrada"
     )]
-    public function destroy(int $id, DeleteEnterprise $deleteEnterprise);
+    public function destroy(int $id);
     #[OA\Put(
         path: "/api/enterprise/{id}",
         summary: "Atualizar empresa",
