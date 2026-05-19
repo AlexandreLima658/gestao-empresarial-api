@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\CostCenter;
 
-use App\Application\UseCases\CostCenter\create\CreateCostCenter;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterUseCase;
 use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
-use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
+use App\Application\UseCases\CostCenter\update\UpdateCostCenterUseCase;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -46,7 +46,7 @@ interface CostCenterAPI
         response: 400,
         description: "Erro ao criar um centro de custo"
     )]
-    public function store(Request $request, CreateCostCenter $createCostCenter);
+    public function store(Request $request);
     #[OA\Get(
         path: "/api/enterprise/{enterpriseId}/cost-centers",
         summary: "Listar centros de custo por empresa",
@@ -68,12 +68,20 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function indexByEnterprise(int $enterpriseId, RetrieveCostCenterByEnterprise $useCase);
+    public function indexByEnterprise(int $enterpriseId);
 
     #[OA\Put(
         path: "/api/cost-centers/{id}",
         summary: "Atualizar centro de custo",
         tags: ["Cost Center"]
+    )]
+
+    #[OA\Parameter(
+        name: "id",
+        description: "ID do centro de custo",
+        in: "path",
+        required: true,
+        schema: new OA\Schema(type: "integer")
     )]
 
     #[OA\RequestBody(
@@ -99,7 +107,7 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function update(int $id, Request $request, UpdateCostCenter $updateCostCenter);
+    public function update(int $id, Request $request);
     #[OA\Delete(
         path: "/api/cost-centers/{id}",
         summary: "Remover centro de custo",
@@ -121,6 +129,6 @@ interface CostCenterAPI
         response: 404,
         description: "Centro de custo não encontrado"
     )]
-    public function destroy(int $id, DeleteCostCenter $delete);
+    public function destroy(int $id);
 
 }

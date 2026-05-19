@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Financial;
 
 use App\Application\UseCases\Financial\create\CreateFinancialEntry;
 use Illuminate\Http\Request;
-
 use OpenApi\Attributes as OA;
 
 interface FinancialEntryAPI
@@ -78,5 +77,5 @@ interface FinancialEntryAPI
         response: 400,
         description: "Erro ao criar lançamento"
     )]
-    public function store(Request $request, CreateFinancialEntry $useCase);
+    public function store(Request $request);
 }

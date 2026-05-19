@@ -4,7 +4,6 @@ namespace App\Application\UseCases\Monthly;
 
 
 use App\Application\UseCases\UseCase;
-use App\Domain\Entities\Monthly\MonthlyClosing;
 use App\Domain\Entities\Monthly\MonthlyClosingFactory;
 use App\Domain\Entities\Monthly\ValueObject\Month;
 use App\Domain\Repositories\Enterprise\EnterpriseRepository;

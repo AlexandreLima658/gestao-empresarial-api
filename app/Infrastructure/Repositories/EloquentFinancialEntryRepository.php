@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\Entities\Financial\FinancialEntry;
-use App\Domain\Enums\FinancialEntryType;
 use App\Domain\Repositories\Financial\FinancialEntryRepository;
 use App\Models\FinancialEntryModel;
 use Illuminate\Support\Collection;

@@ -83,5 +83,5 @@ interface MonthlyClosingAPI
         response: 400,
         description: "Erro ao realizar fechamento mensal"
     )]
-    public function store(Request $request, CloseMonthlyCashFlow $useCase);
+    public function store(Request $request);
 }

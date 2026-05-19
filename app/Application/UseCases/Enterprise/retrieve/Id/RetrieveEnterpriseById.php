@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Application\UseCases\Enterprise\update;
+namespace App\Application\UseCases\Enterprise\retrieve\Id;
 
 use App\Domain\Entities\Enterprise\Enterprise;
 use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 
-class UpdateEnterprise
+class RetrieveEnterpriseById
 {
     private EnterpriseRepository $repository;
 
@@ -14,16 +14,14 @@ class UpdateEnterprise
         $this->repository = $repository;
     }
 
-    public function execute(int $id, string $name): Enterprise
+    public function execute(int $id): Enterprise
     {
         $enterprise = $this->repository->findById($id);
 
-        if(!$enterprise){
-            throw new \Exception("Enterprise not found!");
+        if(!$enterprise) {
+            throw new \Exception("Enterprise not found");
         }
 
-        $enterprise->updateEnterprise($name);
-
-        return $this->repository->update($enterprise);
+        return $enterprise;
     }
 }

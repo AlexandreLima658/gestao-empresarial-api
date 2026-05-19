@@ -4,17 +4,23 @@ namespace App\Http\Controllers\Monthly;
 
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlow;
 use App\Application\UseCases\Monthly\CloseMonthlyCashFlowInput;
-use App\Application\UseCases\Monthly\CloseMonthlyCashFlowOutput;
 use App\Http\Controllers\Controller;
 use App\Presenters\MonthlyClosingPresenter;
 use Illuminate\Http\Request;
 
 class MonthlyClosingController extends Controller implements MonthlyClosingAPI
 {
-    public function store(Request $request, CloseMonthlyCashFlow $useCase)
+
+    public function __construct(
+        private CloseMonthlyCashFlow $useCase
+    )
+    {}
+    public function store(Request $request)
     {
         try {
-            $closing = $useCase->execute(CloseMonthlyCashFlowInput::from($request));
+            $closing = $this->useCase->execute(
+                CloseMonthlyCashFlowInput::from($request)
+            );
 
             return response()->json(
                 MonthlyClosingPresenter::toResponse($closing),

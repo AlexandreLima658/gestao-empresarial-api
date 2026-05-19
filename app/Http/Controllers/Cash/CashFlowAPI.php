@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cash;
 use App\Application\UseCases\Cash\CashFlow;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
+
 interface CashFlowAPI
 {
     #[OA\Get(
@@ -81,5 +82,5 @@ interface CashFlowAPI
         response: 400,
         description: "Erro na consulta"
     )]
-    public function index(Request $request, CashFlow $useCase);
+    public function index(Request $request);
 }

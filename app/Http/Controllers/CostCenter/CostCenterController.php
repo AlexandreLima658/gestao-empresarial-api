@@ -2,26 +2,34 @@
 
 namespace App\Http\Controllers\CostCenter;
 
-use App\Application\UseCases\CostCenter\create\CreateCostCenter;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterInput;
+use App\Application\UseCases\CostCenter\create\CreateCostCenterUseCase;
 use App\Application\UseCases\CostCenter\delete\DeleteCostCenter;
 use App\Application\UseCases\CostCenter\retrieve\RetrieveCostCenterByEnterprise;
-use App\Application\UseCases\CostCenter\update\UpdateCostCenter;
+use App\Application\UseCases\CostCenter\update\UpdateCostCenterInput;
+use App\Application\UseCases\CostCenter\update\UpdateCostCenterUseCase;
 use App\Http\Controllers\Controller;
 use App\Presenters\CostCenterPresenter;
 use Illuminate\Http\Request;
 
 class CostCenterController extends Controller implements CostCenterAPI
 {
-
-    public function store(Request $request, CreateCostCenter $createCostCenter)
+    public function __construct(
+        private CreateCostCenterUseCase $createCostCenter,
+        private RetrieveCostCenterByEnterprise $retrieveCostCenter,
+        private UpdateCostCenterUseCase $updateCostCenter,
+        private DeleteCostCenter $delete
+    )
+    {}
+    public function store(Request $request)
     {
         try {
-            $costCenter = $createCostCenter->execute(
-                $request->input('enterprise_id'),
-                $request->input('name'),
-            );
+            $costCenter = $this->createCostCenter->execute(CreateCostCenterInput::from($request));
 
-            return response()->json(CostCenterPresenter::toJson($costCenter), 201);
+            return response()->json(
+                CostCenterPresenter::toResponseCreate($costCenter),
+                201
+            );
 
         } catch (\Exception $exception) {
             return response()->json([
@@ -30,10 +38,10 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function indexByEnterprise(int $enterpriseId, RetrieveCostCenterByEnterprise $useCase)
+    public function indexByEnterprise(int $enterpriseId)
     {
         try {
-            $costCenters = $useCase->execute($enterpriseId);
+            $costCenters = $this->retrieveCostCenter->execute($enterpriseId);
             return CostCenterPresenter::collection($costCenters);
 
         } catch (\Exception $e) {
@@ -43,15 +51,14 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function update(int $id, Request $request, UpdateCostCenter $updateCostCenter)
+    public function update(int $id, Request $request)
     {
         try {
-            $costCenter = $updateCostCenter->execute(
-                $id,
-                $request->input('name'),
+            $costCenter = $this->updateCostCenter->execute(
+                UpdateCostCenterInput::from($id, $request)
             );
 
-            return response()->json(CostCenterPresenter::toJson($costCenter));
+            return response()->json(CostCenterPresenter::toResponseUpdate($costCenter));
 
         } catch (\Exception $e) {
             return response()->json([
@@ -60,10 +67,10 @@ class CostCenterController extends Controller implements CostCenterAPI
         }
     }
 
-    public function destroy(int $id, DeleteCostCenter $delete)
+    public function destroy(int $id)
     {
         try {
-            $delete->execute($id);
+            $this->delete->execute($id);
             return response()->json([
                 'message' => 'Cost center delete successfully'
             ]);
