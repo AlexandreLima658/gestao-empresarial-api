@@ -12,7 +12,7 @@ class MonthlyClosingFactory
         int $month,
         int $year,
         bool $closed
-    ){
+    ): MonthlyClosing {
         return new MonthlyClosing(
             null,
             $enterpriseId,
