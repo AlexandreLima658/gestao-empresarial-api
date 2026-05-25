@@ -8,9 +8,11 @@ class Month
 
     /**
      * @param int $value
+     * @throws \Exception
      */
     public function __construct(int $value)
     {
+        $this->validate($value);
         $this->value = $value;
     }
 

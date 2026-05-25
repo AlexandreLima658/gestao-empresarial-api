@@ -15,7 +15,7 @@ class FinancialEntryFactory
         FinancialEntryType $type,
         string $entryDate,
 
-    ) {
+    ): FinancialEntry {
         return new FinancialEntry(
             $id,
             $enterpriseId,
@@ -35,7 +35,7 @@ class FinancialEntryFactory
         FinancialEntryType $type,
         string $entryDate,
 
-    ) {
+    ): FinancialEntry {
         return new FinancialEntry(
             null,
             $enterpriseId,

@@ -6,13 +6,28 @@ use App\Domain\Entities\Monthly\ValueObject\Month;
 
 class MonthlyClosingFactory
 {
+    public static function create(
+        int $id,
+        int $enterpriseId,
+        int $month,
+        int $year,
+        bool $closed
+    ): MonthlyClosing {
+        return new MonthlyClosing(
+            $id,
+            $enterpriseId,
+            Month::fromInt($month),
+            $year,
+            $closed
+        );
+    }
 
     public static function createWithIdNull(
         int $enterpriseId,
         int $month,
         int $year,
         bool $closed
-    ){
+    ): MonthlyClosing {
         return new MonthlyClosing(
             null,
             $enterpriseId,
