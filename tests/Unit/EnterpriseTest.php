@@ -1,26 +1,26 @@
 <?php
 
-namespace Tests\Unit;
-
+use App\Domain\Entities\Enterprise\Enterprise;
 use App\Domain\Entities\Enterprise\EnterpriseFactory;
-use PHPUnit\Framework\TestCase;
 
-class EnterpriseTest extends TestCase
-{
-    /**
-     * A basic unit test example.
-     */
-    public function test_givenAValidParams_whenCallNewEnterprise_thenInstantiateAEnterprise(): void
-    {
-        $expectedName = "Latam";
-        $expectedId = 1;
 
-        $actualEnterprise = EnterpriseFactory::create($expectedId, $expectedName);
+it('should create a new enterprise', function () {
+    $expectedName = "Latam";
+    $expectedId = 1;
 
-        $this->assertNotNull($actualEnterprise);
-        $this->assertNotNull($actualEnterprise->getId());
-        $this->assertEquals($expectedName, $actualEnterprise->getName());
+    $enterprise = EnterpriseFactory::create($expectedId, $expectedName);
 
-    }
+    expect($enterprise)->toBeInstanceOf(Enterprise::class)
+        ->and($enterprise->getId())->toBe($expectedId)
+        ->and($enterprise->getName())->toBe($expectedName);
+});
 
-}
+it('should return exception when name is empty', function () {
+    $expectedName = "";
+    $expectedId = 1;
+    $expectedMessageError = "Name enterprise is required";
+
+    $enterprise = fn() => EnterpriseFactory::create($expectedId, $expectedName);
+    expect($enterprise)->toThrow(Exception::class, $expectedMessageError);
+
+});

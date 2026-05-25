@@ -2,6 +2,8 @@
 
 namespace App\Domain\Entities\Enterprise;
 
+use App\Domain\Exceptions\DomainException;
+
 class Enterprise
 {
     private ?int $id;
@@ -14,6 +16,9 @@ class Enterprise
         $this->name = ($name);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function valid(string $name): void
     {
         if(empty(trim($name))) {
