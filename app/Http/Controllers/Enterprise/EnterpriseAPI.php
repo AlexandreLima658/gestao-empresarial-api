@@ -66,7 +66,7 @@ interface EnterpriseAPI
         schema: new OA\Schema(type: "string", default: "name")
     )]
     #[OA\Parameter(
-        name: "direction",
+        name: "sort_direction",
         in: "query",
         description: "Direção da ordenação (asc ou desc)",
         required: false,

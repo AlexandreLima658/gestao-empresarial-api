@@ -23,7 +23,7 @@ class RetrieveEnterprisesImpl implements RetrieveEnterprises
     {
         $query = $this->applyFilters($input->query);
 
-        $paginator = $query->orderBy($input->sortBy, $input->sortDirection)
+        $paginator = $query->orderBy($input->sortBy, $input->sort_direction)
             -> paginate(
                 $input->perPage,
                 ['*'],

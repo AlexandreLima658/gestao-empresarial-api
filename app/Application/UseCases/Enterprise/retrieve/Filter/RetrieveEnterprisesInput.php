@@ -12,7 +12,7 @@ readonly class RetrieveEnterprisesInput
         public int $perPage,
         public string $sortBy,
         public string $query,
-        public string $sortDirection,
+        public string $sort_direction,
     )
     {}
 
@@ -23,7 +23,7 @@ readonly class RetrieveEnterprisesInput
             $request->query('perPage', 10),
             $request->query('sortBy', 'name'),
             $request->query('query', ''),
-            $request->query('sortDirection', 'asc')
+            $request->query('sort_direction', 'asc')
         );
     }
 
