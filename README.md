@@ -27,6 +27,15 @@ O objetivo é garantir:
 
 ---
 
+### 📋 Pré-requisitos
+
+Antes de iniciar o projeto, você precisa ter instalado:
+
+ - Docker
+ - Docker Compose
+ - PHP 8+
+ - Composer
+
 ## 🧠 Arquitetura
 
 O projeto segue os princípios de **Clean Architecture**, dividido em camadas:
@@ -93,6 +102,19 @@ cd gestao-financeira-api
 
 composer install
 ```
+### ▶️ Subir container do banco
+
+O projeto utiliza um banco de dados executando em um container Docker.
+
+Para subir o banco de dados execute:
+
+```
+docker compose up -d
+```
+O comando irá:
+
+ - Criar o container do banco
+ - Inicializar o banco de dados
 
 ---
 
@@ -108,7 +130,6 @@ DB_DATABASE=gestao_empresarial
 DB_USERNAME=laravel
 DB_PASSWORD=123456
 ```
-
 ---
 
 ### 🧱 Rodar migrations
