@@ -3,6 +3,7 @@
 namespace App\Application\UseCases\Enterprise\create;
 
 use App\Application\UseCases\UseCase;
+use App\Domain\Entities\Enterprise\Enterprise;
 use App\Domain\Entities\Enterprise\EnterpriseFactory;
 use App\Domain\Repositories\Enterprise\EnterpriseRepository;
 
@@ -25,6 +26,7 @@ class CreateEnterpriseUseCase extends UseCase
     public function execute($input): CreateEnterpriseOutput
     {
         $enterprise = EnterpriseFactory::createWithIdNull($input->name);
+
         $model = $this->repository->save($enterprise);
 
         return new CreateEnterpriseOutput(

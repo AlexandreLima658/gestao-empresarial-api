@@ -2,6 +2,7 @@
 
 use App\Domain\Entities\Enterprise\Enterprise;
 use App\Domain\Entities\Enterprise\EnterpriseFactory;
+use App\Domain\Entities\Exception\EntityValidationException;
 
 
 it('should create a new enterprise', function () {
@@ -21,6 +22,21 @@ it('should return exception when name is empty', function () {
     $expectedMessageError = "Name enterprise is required";
 
     $enterprise = fn() => EnterpriseFactory::create($expectedId, $expectedName);
-    expect($enterprise)->toThrow(Exception::class, $expectedMessageError);
+    expect($enterprise)->toThrow(EntityValidationException::class, $expectedMessageError);
 
 });
+
+it("should update a enterprise", function () {
+   $expectedId = 1;
+   $expectedName = "Latam";
+
+   $enterprise = EnterpriseFactory::create($expectedId, $expectedName);
+
+   $newName = "Gol";
+   $enterprise->updateEnterprise($newName);
+
+   expect($enterprise->getId())->toEqual($expectedId)
+       ->and($enterprise->getName())->toBe($newName);
+
+});
+

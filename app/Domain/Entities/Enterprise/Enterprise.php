@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entities\Enterprise;
 
-use App\Domain\Exceptions\DomainException;
+use App\Domain\Entities\Exception\EntityValidationException;
 
 class Enterprise
 {
@@ -22,16 +22,13 @@ class Enterprise
     private function valid(string $name): void
     {
         if(empty(trim($name))) {
-            throw new \Exception("Name enterprise is required");
+            throw new EntityValidationException("Name enterprise is required");
         }
     }
 
     public function updateEnterprise(string $name): void
     {
-        if(empty(trim($name))) {
-          throw new \Exception("Name enterprise is required!");
-        }
-
+        $this->valid($name);
         $this->name = $name;
     }
 
