@@ -1,0 +1,30 @@
+name: CI Pipeline - Tests API
+
+on:
+  push:
+    branches:
+      - 'feat/**'
+      - 'refact/**'
+      - 'test/**'
+      - 'main'
+
+jobs:
+  api-testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Upload Code
+        uses: actions/checkout@v4
+
+      - name: Config Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: ctype, json, mbstring, pdo_mysql
+          tools: composer
+          coverage: none
+
+      - name: Execute Tests
+        run: ./vendor/bin/pest
+
+
