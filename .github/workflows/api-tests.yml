@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Upload Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Config Environment
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
@@ -24,7 +24,8 @@ jobs:
           tools: composer
           coverage: none
 
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress
+
       - name: Execute Tests
         run: ./vendor/bin/pest
-
-
